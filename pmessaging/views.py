@@ -149,7 +149,7 @@ def delete(request, message_id, success_url=None):
         deleted = True
     if deleted:
         message.save()
-        messages.info(request, _(u"Message successfully deleted."))
+        messages.info(request, _(u"Message successfully moved to trash."))
         return HttpResponseRedirect(success_url)
     raise Http404
 
