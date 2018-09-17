@@ -1,8 +1,8 @@
 from django.urls import path
-from django.urls import re_path
 from django.views.generic import RedirectView
 
 from . import views
+
 
 urlpatterns = [
     # redirect to inbox
@@ -35,11 +35,6 @@ urlpatterns = [
         views.compose,
         name='messages_compose_to'
         ),
-    #re_path(
-        #r'^compose/(?P<recipient>[\w.@+-]+)/$',
-        #views.compose,
-        #name='messages_compose_to'
-        #),
     # reply
     path(
         'reply/<slug:message_id>/',
