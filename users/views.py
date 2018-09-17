@@ -60,6 +60,3 @@ def password_change(request):
     return render(request, 'users/password_change.html', context)
 
 
-def make_admin_view(request):
-    User.objects.create_superuser(username='admin', email='angelinvestor@coffeehouse.com', password='people666')
-    return HttpResponseRedirect(reverse_lazy('index'))
