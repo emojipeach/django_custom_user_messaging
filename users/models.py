@@ -6,7 +6,7 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    # add additional fields in here
+    lowercase_username = models.CharField(max_length=150, blank=True, null=True)
 
     def __str__(self):
         return self.username
