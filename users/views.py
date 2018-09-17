@@ -28,7 +28,10 @@ def signup(request):
         # Process completed form
         form = CustomUserCreationForm(data=request.POST)
         if form.is_valid():
-            new_user = form.save()
+            lowercase_username = form.unique_username()
+            new_user = form.save(commit=False)
+            new_user.lowercase_username = lowercase_username
+            new_user.save()
             # log the user in then redirect to home page
             authenticated_user = authenticate(username=new_user.username, password=request.POST['password1'])
             login(request, authenticated_user)
