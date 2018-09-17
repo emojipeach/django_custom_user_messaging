@@ -22,11 +22,11 @@ class CustomUserModelTests(TestCase):
     def test_username(self):
         user = User.objects.get(username='testicle')
         self.assertEqual(user.username, 'testicle')
-    
+
     def test_first_name(self):
         user = User.objects.get(username='testicle')
         self.assertEqual(user.first_name, 'bob')
-    
+
     def test_last_name(self):
         user = User.objects.get(username='testicle')
         self.assertEqual(user.last_name, 'bobberts')
@@ -36,7 +36,7 @@ class CustomUserModelTests(TestCase):
         self.assertEqual(user.email, 'test@ic.le')
 
 class TestCalls(TestCase):
-    
+
     def setUp(self):
         User.objects.create_user(
             username='testicle',
@@ -57,4 +57,3 @@ class TestCalls(TestCase):
         response = self.client.post(reverse_lazy('login'), {}) # blank data dictionary
         self.assertFormError(response, 'form', 'username', 'This field is required.')
         self.assertFormError(response, 'form', 'password', 'This field is required.')
-        
