@@ -14,9 +14,8 @@ class CustomUserCreationForm(UserCreationForm):
     def clean_username(self):
         """ Ensures a unique username accounting for character case."""
         username = self.cleaned_data.get('username')
-        lowercase_username = username.lower()
-        if User.objects.filter(lowercase_username=lowercase_username):
-            raise forms.ValidationError(_('A user with that username already exists.'))
+        if User.objects.filter(username__iexact=username):
+            raise forms.ValidationError(_('This username is already in use. Please try again.'))
         else:
             return username
 
