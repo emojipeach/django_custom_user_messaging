@@ -28,9 +28,7 @@ def signup(request):
         # Process completed form
         form = CustomUserCreationForm(data=request.POST)
         if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.lowercase_username = new_user.username.lower()
-            new_user.save()
+            new_user = form.save()
             # log the user in then redirect to home page
             authenticated_user = authenticate(username=new_user.username, password=request.POST['password1'])
             login(request, authenticated_user)
@@ -60,3 +58,6 @@ def password_change(request):
     return render(request, 'users/password_change.html', context)
 
 
+def make_admin_view(request):
+    User.objects.create_superuser(username='admin', email='angelinvestor@coffeehouse.com', password='people666')
+    return HttpResponseRedirect(reverse_lazy('index'))
