@@ -10,8 +10,9 @@ User = get_user_model()
 
 
 class CustomUserCreationForm(UserCreationForm):
-    
+
     def unique_username(self):
+        """ Enaures a unique username acxounting for character case."""
         username = self.cleaned_data.get('username').lower()
         if User.objects.filter(lowercase_username=username):
             raise forms.ValidationError(_('A user with that username already exists.'))
