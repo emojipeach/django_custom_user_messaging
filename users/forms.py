@@ -23,7 +23,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class CustomUserChangeProfileForm(forms.ModelForm):
-    
+
     def clean_pgp_key(self):
         """ Ensures pgp key headers are present."""
         key = self.cleaned_data.get('pgp_key')
