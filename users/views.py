@@ -14,6 +14,7 @@ from django.urls import reverse_lazy
 from django.urls import reverse
 
 from users.forms import CustomUserCreationForm
+from users.forms import CustomUserChangeProfileForm
 
 
 User = get_user_model()
@@ -56,4 +57,31 @@ def password_change(request):
         'form': form,
     }
     return render(request, 'users/password_change.html', context)
+
+
+@login_required
+def edit_profile(request):
+    """ View allows user to update their own settings."""
+    if request.method == 'POST':
+        form = CustomUserChangeProfileForm(data=request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile was successfully updated!')
+            return HttpResponseRedirect(reverse('my_profile'))
+    else:
+        form = CustomUserChangeProfileForm(instance=request.user)
+    context = {
+        'form': form,
+    }
+    return render(request, 'users/edit_profile.html', context)
+
+
+@login_required
+def my_profile(request):
+    """ Displays the user's profile."""
+    current_user = User.objects.get(username=request.user)
+    context = {
+        'current_user': current_user,
+    }
+    return render(request, 'users/my_profile.html', context)
 
