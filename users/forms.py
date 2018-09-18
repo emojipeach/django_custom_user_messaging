@@ -1,9 +1,7 @@
 from django import forms
-from django.utils.translation import ugettext_lazy as _
-
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import UserChangeForm
+from django.utils.translation import ugettext_lazy as _
 
 
 User = get_user_model()
@@ -24,8 +22,30 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ('username', 'email')
 
 
-class CustomUserChangeForm(UserChangeForm):
+class CustomUserChangeProfileForm(forms.ModelForm):
+    
+    def clean_pgp_key(self):
+        """ Ensures pgp key headers are present."""
+        key = self.cleaned_data.get('pgp_key')
+        if key == "":
+            return key
+        elif key.startswith(
+        '-----BEGIN PGP PUBLIC KEY BLOCK-----'
+        ) and key.__contains__(
+        '-----END PGP PUBLIC KEY BLOCK-----'
+        ):
+            return key
+        else:
+            raise forms.ValidationError(_(
+        'That is not a valid PGP public key. Please try again or just delete the invalid key.'
+            ))
 
     class Meta:
         model = User
-        fields = ('username', 'email')
+        fields = (
+            'email',
+            'first_name',
+            'last_name',
+            'pgp_key',
+        )
+        widgets = {'pgp_key': forms.Textarea(attrs={'rows': 40, 'cols': 70})}
