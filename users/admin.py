@@ -5,16 +5,21 @@ from django.contrib.auth import get_user_model
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from users.forms import CustomUserCreationForm
-from users.forms import CustomUserChangeForm
 
 User = get_user_model()
 
 
 class CustomUserAdmin(UserAdmin):
-    add_form = CustomUserCreationForm
-    form = CustomUserChangeForm
     model = User
-    list_display = ['email', 'username', ]
+    list_display = ['username']
+    fieldsets = (
+        (None, {
+            'fields': ('username', 'email', 'first_name', 'last_name', 'pgp_key')
+        }),
+        ('Advanced options', {
+            'classes': ('collapse',),
+            'fields': ('password',),
+        }),
+    )
 
 admin.site.register(User, CustomUserAdmin)
