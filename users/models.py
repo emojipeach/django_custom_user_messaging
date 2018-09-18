@@ -15,7 +15,7 @@ class CustomUser(AbstractUser):
     validators=[
         validators.RegexValidator(re.compile('^[\w.-]+$'), _('Enter a valid username.'), _('invalid'))
     ])
-    
+
     pgp_key = models.TextField(_("PGP public key"), blank=True)
 
     def __str__(self):
