@@ -25,8 +25,20 @@ urlpatterns = [
         ),
     # user self password change
     path(
-        'password_change',
+        'password_change/',
         views.password_change,
         name='password_change'
+        ),
+    # user edit own settings
+    path(
+        'edit_profile/',
+        views.edit_profile,
+        name='edit_profile'
+        ),
+    # user's own profile
+    path(
+        'profile/',
+        views.my_profile,
+        name='my_profile'
         ),
 ]
